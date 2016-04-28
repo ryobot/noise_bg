@@ -1,0 +1,66 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2014/10/03, 14:05:00
+    Author     : watanabe
+*/
+
+body {
+    background: #556;
+    text-align: center;
+    padding: 10px;
+}
+div.contents {
+    width: 950px;
+    margin: 0 auto;
+    border: 1px solid #778;
+}
+table.sliders td {
+    padding: 6px;
+}
+div.board {
+    border-radius: 10px;
+    padding: 5px;
+    width: 300px;
+}
+div.loader {
+    border-radius: 10px;
+    background: #fff;
+    width: 360px;
+    height: 360px;
+    padding-left: 270px;
+    padding-top: 270px;
+}
+div.result {
+    border-radius: 10px;
+    background: #fff;
+    width: 615px;
+    //width: 100%;
+    height: 615px;
+    padding-left: 15px;
+    padding-top: 15px;
+}
+
+.ui-slider .ui-slider-handle { 
+    width: 12px;
+    height: 12px;
+}
+
+.ui-slider {
+    width: 150px;
+    height: 4px;
+    margin: 0px 0px;
+    padding: 0px;
+}
+
+td.label {
+    width: 30px;
+    text-align: right;
+    font-size: 80%;
+}
+td.value {
+    width: 50px;
+}
