@@ -37,6 +37,8 @@ table.sliders td {
     padding: 6px;
 }
 #result_div {
+    background: #fff;
+    background-image: url("template.php?scale=30&step=20");
     width: 300px;
     height: 300px;
 }

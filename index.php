@@ -31,6 +31,7 @@
 <script>
 var step = 20;
 var scale = 30;
+var trans = 20;
 
 var resultImg = new Image();
 resultImg.src = "step.php?step=10";
@@ -63,18 +64,18 @@ $(function() {
     });
     $( "#scale" ).val( $( "#slider_scale" ).slider( "value" ) );
 
-    //scaling:
-    $( "#slider_scaling" ).slider({
-        range: "min", min: 0.3, max: 0.8, value: 0.5, step: 0.1,
+    //trans:
+    $( "#slider_trans" ).slider({
+        range: "min", min: 0, max: 40, value: 20,
         slide: function( event, ui ) {
-            $( "#scaling" ).val( ui.value );
-            if ( ui.value != scaling ) {
-                scaling = ui.value;
+            $( "#trans" ).val( ui.value );
+            if ( ui.value != trans ) {
+                trans = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#scaling" ).val( $( "#slider_scaling" ).slider( "value" ) );
+    $( "#trans" ).val( $( "#slider_trans" ).slider( "value" ) );
 
     //distribution:
     $( "#slider_distribution" ).slider({
@@ -169,7 +170,7 @@ $(function() {
 });
 function updateImg() {
     //document.getElementById("result_img").src = "template.php?step=" + step + "&scale=" + scale; 
-    document.getElementById("result_div").style.backgroundImage = "url(" + "template.php?step=" + step + "&scale=" + scale + ")"; 
+    document.getElementById("result_div").style.backgroundImage = "url(" + "template.php?step=" + step + "&scale=" + scale + "&trans=" + trans + ")"; 
 }
 
 </script>
@@ -196,7 +197,7 @@ function updateImg() {
     </table></div></td>
     <!-- result -->
     <td rowspan="2">
-        <div class="board" id="result_div" style="background: #fff; padding: 30px;">
+        <div class="board" id="result_div" style="padding: 30px;">
              <!-- <img id="result_img" src="template.php"> -->
             <h1>noise_bg</h1>
             <h2>Background Test</h2>
@@ -210,9 +211,9 @@ function updateImg() {
     <tr>
     <td><div class="board" style="background: #aba;"><b>color</b><table class="sliders">
         <tr>
-            <td class="label"><label for="scaling">Scaling:</label></td>
-            <td class="value"><input type="text" id="scaling" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_scaling"></div></td>
+            <td class="label"><label for="scaling">Trans:</label></td>
+            <td class="value"><input type="text" id="trans" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><div id="slider_trans"></div></td>
         </tr><tr>
             <td class="label"><label for="distribution">Distribution:</label></td>
             <td class="value"><input type="text" id="distribution" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
