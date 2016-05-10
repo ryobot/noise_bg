@@ -8,23 +8,41 @@ and open the template in the editor.
     Author     : watanabe
 */
 
+h1,h2,h3,h4,h5,h6{font-size: 125%;margin: 0.4em 0;}
+
+h2{font-size: 125%;color:#D30;}
+h3{font-size: 120%;color:#267;}
+h4{font-size: 115%;color:#498;}
+h5{font-size: 110%;}
+h6{font-size: 105%;}
+
 body {
     background: #556;
     text-align: center;
     padding: 10px;
+    text-shadow: 0px 0px 3px #DDD;
+	color: #012;
+/*	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;*/
+	font-family:'lucida grande',verdana,helvetica,arial,"游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
+	line-height: 1.5em;
+	font-size:90%;
 }
 div.contents {
-    width: 950px;
-    margin: 0 auto;
+    width: 720px;
+    margin: auto;
+    padding: 10px;
     border: 1px solid #778;
 }
 table.sliders td {
     padding: 6px;
 }
+#result_div {
+    width: 300px;
+    height: 300px;
+}
 div.board {
     border-radius: 10px;
     padding: 5px;
-    width: 300px;
 }
 div.loader {
     border-radius: 10px;
@@ -37,9 +55,6 @@ div.loader {
 div.result {
     border-radius: 10px;
     background: #fff;
-    width: 615px;
-    //width: 100%;
-    height: 615px;
     padding-left: 15px;
     padding-top: 15px;
 }

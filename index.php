@@ -29,47 +29,39 @@
 -->
 <link rel="stylesheet" href="noise_bg.css" />
 <script>
-var template = 0;
-var template_size = 40;
-var scaling = 0.5;
-var distance = 140;
-var distribution = 0;
-var rotate = 45;
-var dist_rotate = 0;
-var pos_x = 0;
-var pos_y = 0;
-var steps = 10;
+var step = 20;
+var scale = 30;
 
 var resultImg = new Image();
 resultImg.src = "step.php?step=10";
 resultImg.onload = function () { resultLoaded(); }
 
 $(function() {
-    //template:
-    $( "#slider_template" ).slider({
-        range: "min", min: 0, max: 8, value: 0,
+    //step:
+    $( "#slider_step" ).slider({
+        range: "min", min: 1, max: 50, value: 20,
         slide: function( event, ui ) {
-            $( "#template" ).val( ui.value );
-            if ( ui.value != template ) {
-                template = ui.value;
+            $( "#step" ).val( ui.value );
+            if ( ui.value != step ) {
+                step = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#template" ).val( $( "#slider_template" ).slider( "value" ) );
+    $( "#step" ).val( $( "#slider_step" ).slider( "value" ) );
 
-     //template_size:
-    $( "#slider_template_size" ).slider({
-        range: "min", min: 10, max: 100, value: 40, step: 5,
+     //scale:
+    $( "#slider_scale" ).slider({
+        range: "min", min: 2, max: 100, value: 30,
         slide: function( event, ui ) {
-            $( "#template_size" ).val( ui.value );
-            if ( ui.value != template_size ) {
-                template_size = ui.value;
+            $( "#scale" ).val( ui.value );
+            if ( ui.value != scale ) {
+                scale = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#template_size" ).val( $( "#slider_template_size" ).slider( "value" ) );
+    $( "#scale" ).val( $( "#slider_scale" ).slider( "value" ) );
 
     //scaling:
     $( "#slider_scaling" ).slider({
@@ -176,17 +168,10 @@ $(function() {
     $( "#steps" ).val( $( "#slider_steps" ).slider( "value" ) );
 });
 function updateImg() {
-    document.getElementById("step_img").src = "template.php" 
+    //document.getElementById("result_img").src = "template.php?step=" + step + "&scale=" + scale; 
+    document.getElementById("result_div").style.backgroundImage = "url(" + "template.php?step=" + step + "&scale=" + scale + ")"; 
 }
-function resultLoaded() {
-    document.getElementById("result_img").src = resultImg.src;
-    document.getElementById("result_div").className = "result";
-}
-function updateResult() {
-    resultImg.src = "template.php";
-    document.getElementById("result_img").src = "loader.gif"
-    document.getElementById("result_div").className = "loader";
-}
+
 </script>
 </head>
 <body>
@@ -194,43 +179,36 @@ function updateResult() {
 <table>
     <!-- title -->
     <tr>
-    <td><div class="board" style="background: #667; text-align: center;"><b>Noise Background Drawing Script</b></div></td>
-    <!-- render -->
-    <td><div class="board" style="background: #eee; width:620px;"><table class="sliders">
-        <tr>
-            <td><b>render</b></td>
-            <td class="label"><label for="steps">Steps:</label></td>
-            <td class="value"><input type="text" id="steps" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_steps" style="width: 300px;"></div></td>
-            <td><button onclick="updateResult()">Update</button></td>
-        </tr>
-        </table>
-        </div>
-    </td>
+    <td colspan="2"><div class="board" style="background: #667; text-align: center;"><b>Noise Background Drawing Script</b></div></td>
     </tr>
     <!-- source -->
     <tr>
-    <td><div class="board" style="background: #baa;"><b>source</b><table class="sliders">
+    <td><div class="board" style="background: #baa;"><b>size</b><table class="sliders">
         <tr>
-            <td class="label"><label for="template">Source:</label></td>
-            <td class="value"><input type="text" id="template" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_template"></div></td>
+            <td class="label"><label for="step">Step:</label></td>
+            <td class="value"><input type="text" id="step" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><div id="slider_step"></div></td>
         </tr><tr>
-            <td class="label"><label for="template_size">Size:</label></td>
-            <td class="value"><input type="text" id="template_size" style="border: 0; color: #931ff6; font-weight: bold;" size="3" />%</td>
-            <td><div id="slider_template_size"></div></td>
+            <td class="label"><label for="scale">Scale:</label></td>
+            <td class="value"><input type="text" id="scale" style="border: 0; color: #931ff6; font-weight: bold;" size="3" /></td>
+            <td><div id="slider_scale"></div></td>
         </tr>
     </table></div></td>
     <!-- result -->
-    <td rowspan="4">
-        <div id="result_div" class="loader">
-        <img id="result_img" src="template.php">
+    <td rowspan="2">
+        <div class="board" id="result_div" style="background: #fff; padding: 30px;">
+             <!-- <img id="result_img" src="template.php"> -->
+            <h1>noise_bg</h1>
+            <h2>Background Test</h2>
+            <h3>Background Test</h3>
+            <h4>Background Test</h4>
+            <p>バックグラウンドのテストです。( ^^) _U~~</p>
         </div>
     </td>
     </tr>
     <!-- scaling -->
     <tr>
-    <td><div class="board" style="background: #aba;"><b>scaling</b><table class="sliders">
+    <td><div class="board" style="background: #aba;"><b>color</b><table class="sliders">
         <tr>
             <td class="label"><label for="scaling">Scaling:</label></td>
             <td class="value"><input type="text" id="scaling" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
@@ -262,12 +240,6 @@ function updateResult() {
         </tr>
     </table></div></td>
     </tr>
-    <!-- task window -->
-    <tr><td>
-        <div class="board" style="background: #abb;"><b>the task</b><center>
-        <img id="step_img" src="template.php"></center>
-        </div>
-    </td></tr>
 </table>
 
 </div></body>
