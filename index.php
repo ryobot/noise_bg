@@ -32,10 +32,39 @@
 var step = 20;
 var scale = 30;
 var trans = 20;
+var colorq = 3;
+var colorqn = 6;
+var colorh = 0;
 
 var resultImg = new Image();
 resultImg.src = "step.php?step=10";
 resultImg.onload = function () { resultLoaded(); }
+var updated = false;
+var timer = null;
+
+function updateImg() {
+    updated = true;
+}
+function doUpdateImg() {
+    //document.getElementById("result_img").src = "template.php?step=" + step + "&scale=" + scale; 
+    document.getElementById("result_div").style.backgroundImage = "url(" + "template.php?step=" + step + 
+            "&scale=" + scale + 
+            "&trans=" + trans +
+            "&colorq=" + colorq +
+            "&colorqn=" + colorqn +
+            "&colorh=" + colorh +
+            ")"; 
+    updated = false;
+}
+
+onload = function() {
+    window.clearInterval(timer);
+    timer = window.setInterval(function(){
+        if(updated){
+            doUpdateImg();
+        };
+    }, 1000);
+}
 
 $(function() {
     //step:
@@ -77,44 +106,44 @@ $(function() {
     });
     $( "#trans" ).val( $( "#slider_trans" ).slider( "value" ) );
 
-    //distribution:
-    $( "#slider_distribution" ).slider({
-        range: "min", min: 0, max: 10, value: 0,
+    //colorh:
+    $( "#slider_colorh" ).slider({
+        range: "min", min: 0, max: 17, value: 0,
         slide: function( event, ui ) {
-            $( "#distribution" ).val( ui.value );
-            if ( ui.value != distribution ) {
-                distribution = ui.value;
+            $( "#colorh" ).val( ui.value );
+            if ( ui.value != colorh ) {
+                colorh = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#distribution" ).val( $( "#slider_distribution" ).slider( "value" ) );
+    $( "#colorh" ).val( $( "#slider_colorh" ).slider( "value" ) );
 
-    //distance:
-    $( "#slider_distance" ).slider({
-        range: "min", min: 0, max: 200, value: 140, step: 5,
+    //colorq:
+    $( "#slider_colorq" ).slider({
+        range: "min", min: 1, max: 3, value: 3, step: 1,
         slide: function( event, ui ) {
-            $( "#distance" ).val( ui.value );
-            if ( ui.value != distance ) {
-                distance = ui.value;
+            $( "#colorq" ).val( ui.value );
+            if ( ui.value != colorq ) {
+                colorq = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#distance" ).val( $( "#slider_distance" ).slider( "value" ) );
+    $( "#colorq" ).val( $( "#slider_colorq" ).slider( "value" ) );
 
-    //rotate:
-    $( "#slider_rotate" ).slider({
-        range: "min", min: -90, max: 90, value: 0, step: 3,
+    //colorqn:
+    $( "#slider_colorqn" ).slider({
+        range: "min", min: 1, max: 6, value: 6, step: 1,
         slide: function( event, ui ) {
-            $( "#rotate" ).val( ui.value );
-            if ( ui.value != rotate ) {
-                rotate = ui.value;
+            $( "#colorqn" ).val( ui.value );
+            if ( ui.value != colorqn ) {
+                colorqn = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#rotate" ).val( $( "#slider_rotate" ).slider( "value" ) );
+    $( "#colorqn" ).val( $( "#slider_colorqn" ).slider( "value" ) );
 
     //dist rotate:
     $( "#slider_dist_rotate" ).slider({
@@ -168,10 +197,6 @@ $(function() {
     });
     $( "#steps" ).val( $( "#slider_steps" ).slider( "value" ) );
 });
-function updateImg() {
-    //document.getElementById("result_img").src = "template.php?step=" + step + "&scale=" + scale; 
-    document.getElementById("result_div").style.backgroundImage = "url(" + "template.php?step=" + step + "&scale=" + scale + "&trans=" + trans + ")"; 
-}
 
 </script>
 </head>
@@ -184,7 +209,7 @@ function updateImg() {
     </tr>
     <!-- source -->
     <tr>
-    <td><div class="board" style="background: #baa;"><b>size</b><table class="sliders">
+    <td><div class="board" style="background: #baa;"><b>bg params</b><table class="sliders">
         <tr>
             <td class="label"><label for="step">Step:</label></td>
             <td class="value"><input type="text" id="step" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
@@ -193,6 +218,22 @@ function updateImg() {
             <td class="label"><label for="scale">Scale:</label></td>
             <td class="value"><input type="text" id="scale" style="border: 0; color: #931ff6; font-weight: bold;" size="3" /></td>
             <td><div id="slider_scale"></div></td>
+        </tr><tr>
+            <td class="label"><label for="scaling">Trans:</label></td>
+            <td class="value"><input type="text" id="trans" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><div id="slider_trans"></div></td>
+        </tr><tr>
+            <td class="label"><label for="colorh">ColorHue:</label></td>
+            <td class="value"><input type="text" id="colorh" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><div id="slider_colorh"></div></td>
+        </tr><tr>
+            <td class="label"><label for="colorq">ColorQ:</label></td>
+            <td class="value"><input type="text" id="colorq" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><div id="slider_colorq"></div></td>
+        </tr><tr>
+            <td class="label"><label for="colorqn">ColorQN:</label></td>
+            <td class="value"><input type="text" id="colorqn" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><div id="slider_colorqn"></div></td>
         </tr>
     </table></div></td>
     <!-- result -->
@@ -209,27 +250,11 @@ function updateImg() {
     </tr>
     <!-- scaling -->
     <tr>
-    <td><div class="board" style="background: #aba;"><b>color</b><table class="sliders">
+    <td><div class="board" style="background: #aba;"><b>date</b><table class="sliders">
         <tr>
-            <td class="label"><label for="scaling">Trans:</label></td>
-            <td class="value"><input type="text" id="trans" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_trans"></div></td>
-        </tr><tr>
-            <td class="label"><label for="distribution">Distribution:</label></td>
-            <td class="value"><input type="text" id="distribution" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_distribution"></div></td>
-        </tr><tr>
-            <td class="label"><label for="distance">Distance:</label></td>
-            <td class="value"><input type="text" id="distance" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_distance"></div></td>
-        </tr><tr>
-            <td class="label"><label for="dist_rotate">Rotate 1:</label></td>
+            <td class="label"><label for="dist_rotate">Rotate2:</label></td>
             <td class="value"><input type="text" id="dist_rotate" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
             <td><div id="slider_dist_rotate"></div></td>
-        </tr><tr>
-            <td class="label"><label for="rotate">Rotate 2:</label></td>
-            <td class="value"><input type="text" id="rotate" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_rotate"></div></td>
         </tr><tr>
             <td class="label"><label for="pos_x">Pos. X:</label></td>
             <td class="value"><input type="text" id="pos_x" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
