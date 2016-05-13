@@ -31,7 +31,7 @@
 <script>
 var step = 20;
 var scale = 30;
-var trans = 20;
+var trans = 9;
 var colorq = 3;
 var colorqn = 6;
 var colorh = 0;
@@ -66,14 +66,21 @@ onload = function() {
     }, 1000);
 }
 
+function resumeTrans () {
+    trans = parseInt(20*(2*scale-step)*(2*scale-step)/(4*scale*scale));
+    $( "#trans" ).val( trans );
+    $( "#slider_trans" ).slider("value", trans);
+}
+
 $(function() {
     //step:
     $( "#slider_step" ).slider({
-        range: "min", min: 1, max: 50, value: 20,
+        range: "min", min: 1, max: 100, value: 20,
         slide: function( event, ui ) {
             $( "#step" ).val( ui.value );
             if ( ui.value != step ) {
                 step = ui.value;
+                resumeTrans();
                 updateImg();
             }
         }
@@ -87,6 +94,7 @@ $(function() {
             $( "#scale" ).val( ui.value );
             if ( ui.value != scale ) {
                 scale = ui.value;
+                resumeTrans();
                 updateImg();
             }
         }
@@ -95,7 +103,7 @@ $(function() {
 
     //trans:
     $( "#slider_trans" ).slider({
-        range: "min", min: 0, max: 40, value: 20,
+        range: "min", min: 0, max: 45, value: 9,
         slide: function( event, ui ) {
             $( "#trans" ).val( ui.value );
             if ( ui.value != trans ) {
