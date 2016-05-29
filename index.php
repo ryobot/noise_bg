@@ -29,12 +29,15 @@
 -->
 <link rel="stylesheet" href="noise_bg.css" />
 <script>
-var step = 20;
-var scale = 30;
-var trans = 9;
+var step = 10;
+var scale = 20;
+var trans = 11;
 var colorq = 3;
 var colorqn = 6;
 var colorh = 0;
+var day = 0;
+var season = 0;
+var sat = 25;
 
 var resultImg = new Image();
 resultImg.src = "step.php?step=10";
@@ -53,6 +56,7 @@ function doUpdateImg() {
             "&colorq=" + colorq +
             "&colorqn=" + colorqn +
             "&colorh=" + colorh +
+            "&sat=" + sat +
             ")"; 
     updated = false;
 }
@@ -65,17 +69,125 @@ onload = function() {
         };
     }, 1000);
 }
-
 function resumeTrans () {
     trans = parseInt(20*(2*scale-step)*(2*scale-step)/(4*scale*scale));
     $( "#trans" ).val( trans );
     $( "#slider_trans" ).slider("value", trans);
 }
 
+var sst = [];
+sst.push({ step:10, scale:20, trans:18 }); // 00
+sst.push({ step:15, scale:30, trans:14 }); // 01
+sst.push({ step:15, scale:40, trans:13 }); // 02
+sst.push({ step:20, scale:50, trans:12 }); // 03
+sst.push({ step:25, scale:60, trans:12 }); // 04
+sst.push({ step:30, scale:70, trans:12 }); // 05
+sst.push({ step:40, scale:80, trans:11 }); // 06
+sst.push({ step:50, scale:90, trans:10 }); // 07
+sst.push({ step:60, scale:100, trans:8 }); // 08
+sst.push({ step:70, scale:100, trans:7 }); // 09
+sst.push({ step:80, scale:100, trans:6 }); // 10
+sst.push({ step:90, scale:100, trans:5 }); // 11
+sst.push({ step:95, scale:100, trans:4 }); // 12
+sst.push({ step:115, scale:120, trans:3 }); // 13
+sst.push({ step:150, scale:150, trans:3 }); // 14
+sst.push({ step:150, scale:140, trans:3 }); // 15
+sst.push({ step:120, scale:110, trans:3 }); // 16
+sst.push({ step:90, scale:80, trans:3 }); // 17
+sst.push({ step:70, scale:60, trans:3 }); // 18
+sst.push({ step:60, scale:50, trans:3 }); // 19
+sst.push({ step:50, scale:40, trans:3 }); // 20
+sst.push({ step:40, scale:35, trans:3 }); // 21
+sst.push({ step:30, scale:30, trans:4 }); // 22
+sst.push({ step:25, scale:25, trans:5 }); // 23
+sst.push({ step:20, scale:20, trans:5 }); // 24
+sst.push({ step:15, scale:15, trans:6 }); // 25
+sst.push({ step:10, scale:10, trans:8 }); // 26
+sst.push({ step:10, scale:15, trans:15 }); // 27
+
+var hueQSat = [];
+hueQSat.push({ hue: 0, q:3, sat:25, qn:5 }); // 01
+hueQSat.push({ hue: 1, q:2, sat:25, qn:4 }); // 02
+hueQSat.push({ hue: 2, q:1, sat:25, qn:3 }); // 03
+hueQSat.push({ hue: 3, q:1, sat:25, qn:4 }); // 04
+hueQSat.push({ hue: 4, q:1, sat:25, qn:5 }); // 05
+hueQSat.push({ hue: 5, q:1, sat:25, qn:6 }); // 06
+hueQSat.push({ hue: 6, q:1, sat:25, qn:5 }); // 07
+hueQSat.push({ hue: 7, q:1, sat:25, qn:4 }); // 08
+hueQSat.push({ hue: 8, q:1, sat:25, qn:3 }); // 09
+hueQSat.push({ hue: 9, q:1, sat:25, qn:4 }); // 10
+hueQSat.push({ hue:10, q:1, sat:25, qn:5 }); // 11
+hueQSat.push({ hue:11, q:1, sat:25, qn:6 }); // 12
+hueQSat.push({ hue:12, q:2, sat:25, qn:5 }); // 13
+hueQSat.push({ hue:13, q:2, sat:25, qn:4 }); // 14
+hueQSat.push({ hue:14, q:2, sat:25, qn:3 }); // 15
+hueQSat.push({ hue:15, q:3, sat:25, qn:4 }); // 16
+hueQSat.push({ hue:16, q:3, sat:20, qn:4 }); // 17
+hueQSat.push({ hue:17, q:3, sat:15, qn:3 }); // 18
+hueQSat.push({ hue: 0, q:3, sat:10, qn:3 }); // 19
+hueQSat.push({ hue: 0, q:3, sat:5, qn:3 }); // 20
+hueQSat.push({ hue: 0, q:3, sat:0, qn:4 }); // 21
+hueQSat.push({ hue: 0, q:3, sat:10, qn:5 }); // 22
+hueQSat.push({ hue: 0, q:3, sat:20, qn:6 }); // 23
+hueQSat.push({ hue: 0, q:3, sat:25, qn:6 }); // 24
+
+function resumeDay () {
+    step = sst[day].step;
+    scale = sst[day].scale;
+    trans = sst[day].trans;
+    $( "#step" ).val( step );
+    $( "#slider_step" ).slider("value", step);
+    $( "#scale" ).val( scale );
+    $( "#slider_scale" ).slider("value", scale);
+    $( "#trans" ).val( trans );
+    $( "#slider_trans" ).slider("value", trans);
+    $( "#day" ).val( day );
+    $( "#slider_day" ).slider("value", day);
+    updateImg();
+}
+function dayDesc () {
+    day = day - 1;
+    if ( day < 0 ) day += 28;
+    resumeDay();
+}
+function dayAsc () {
+    day = day + 1;
+    if ( day >= 28 ) day -= 28;
+    resumeDay();
+}
+
+function resumeSeason () {
+    colorq = hueQSat[season].q;
+    colorqn = hueQSat[season].qn;
+    colorh = hueQSat[season].hue;
+    sat = hueQSat[season].sat;
+    $( "#colorq" ).val( colorq );
+    $( "#slider_colorqn" ).slider("value", colorqn);
+    $( "#colorqn" ).val( colorqn );
+    $( "#slider_colorq" ).slider("value", colorq);
+    $( "#colorh" ).val( colorh );
+    $( "#slider_colorh" ).slider("value", colorh);
+    $( "#sat" ).val( sat );
+    $( "#slider_sat" ).slider("value", sat);
+    $( "#season" ).val( season );
+    $( "#slider_season" ).slider("value", season);
+    updateImg();
+}
+function seasonDesc () {
+    season = season - 1;
+    if ( season < 0 ) season += 24;
+    resumeSeason();
+}
+function seasonAsc () {
+    season = season + 1;
+    if ( season >= 24 ) season -= 24;
+    resumeSeason();
+}
+
 $(function() {
     //step:
     $( "#slider_step" ).slider({
-        range: "min", min: 1, max: 100, value: 20,
+        range: "min", min: 1, max: 200, value: 10,
         slide: function( event, ui ) {
             $( "#step" ).val( ui.value );
             if ( ui.value != step ) {
@@ -89,7 +201,7 @@ $(function() {
 
      //scale:
     $( "#slider_scale" ).slider({
-        range: "min", min: 2, max: 100, value: 30,
+        range: "min", min: 2, max: 200, value: 20,
         slide: function( event, ui ) {
             $( "#scale" ).val( ui.value );
             if ( ui.value != scale ) {
@@ -103,7 +215,7 @@ $(function() {
 
     //trans:
     $( "#slider_trans" ).slider({
-        range: "min", min: 0, max: 45, value: 9,
+        range: "min", min: 0, max: 45, value: 11,
         slide: function( event, ui ) {
             $( "#trans" ).val( ui.value );
             if ( ui.value != trans ) {
@@ -153,31 +265,44 @@ $(function() {
     });
     $( "#colorqn" ).val( $( "#slider_colorqn" ).slider( "value" ) );
 
-    //dist rotate:
-    $( "#slider_dist_rotate" ).slider({
-        range: "min", min: -90, max: 90, value: 45, step: 3,
+    //saturation:
+    $( "#slider_sat" ).slider({
+        range: "min", min: 0, max: 25, value: 25, step: 1,
         slide: function( event, ui ) {
-            $( "#dist_rotate" ).val( ui.value );
-            if ( ui.value != dist_rotate ) {
-                dist_rotate = ui.value;
+            $( "#sat" ).val( ui.value );
+            if ( ui.value != sat ) {
+                sat = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#dist_rotate" ).val( $( "#slider_dist_rotate" ).slider( "value" ) );
+    $( "#sat" ).val( $( "#slider_sat" ).slider( "value" ) );
 
-    //pos_x:
-    $( "#slider_pos_x" ).slider({
-        range: "min", min: -100, max: 100, value: 0, step: 2,
+    //day:
+    $( "#slider_day" ).slider({
+        range: "min", min: 0, max: 28, value: 0, step: 1,
         slide: function( event, ui ) {
-            $( "#pos_x" ).val( ui.value );
-            if ( ui.value != pos_x ) {
-                pos_x = ui.value;
+            $( "#day" ).val( ui.value );
+            if ( ui.value != day ) {
+                day = ui.value;
                 updateImg();
             }
         }
     });
-    $( "#pos_x" ).val( $( "#slider_pos_x" ).slider( "value" ) );
+    $( "#day" ).val( $( "#slider_day" ).slider( "value" ) );
+
+    //season:
+    $( "#slider_season" ).slider({
+        range: "min", min: 0, max: 24, value: 0, step: 1,
+        slide: function( event, ui ) {
+            $( "#season" ).val( ui.value );
+            if ( ui.value != season ) {
+                season = ui.value;
+                updateImg();
+            }
+        }
+    });
+    $( "#season" ).val( $( "#slider_season" ).slider( "value" ) );
 
     //pos_y:
     $( "#slider_pos_y" ).slider({
@@ -192,18 +317,6 @@ $(function() {
     });
     $( "#pos_y" ).val( $( "#slider_pos_y" ).slider( "value" ) );
 
-    //steps:
-    $( "#slider_steps" ).slider({
-        range: "min", min: 2, max: 20, value: 10,
-        slide: function( event, ui ) {
-            $( "#steps" ).val( ui.value );
-            if ( ui.value != steps ) {
-                steps = ui.value;
-                //updateResult();
-            }
-        }
-    });
-    $( "#steps" ).val( $( "#slider_steps" ).slider( "value" ) );
 });
 
 </script>
@@ -242,6 +355,10 @@ $(function() {
             <td class="label"><label for="colorqn">ColorQN:</label></td>
             <td class="value"><input type="text" id="colorqn" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
             <td><div id="slider_colorqn"></div></td>
+        </tr><tr>
+            <td class="label"><label for="colorqn">Saturation:</label></td>
+            <td class="value"><input type="text" id="sat" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><div id="slider_sat"></div></td>
         </tr>
     </table></div></td>
     <!-- result -->
@@ -260,15 +377,15 @@ $(function() {
     <tr>
     <td><div class="board" style="background: #aba;"><b>date</b><table class="sliders">
         <tr>
-            <td class="label"><label for="dist_rotate">Rotate2:</label></td>
-            <td class="value"><input type="text" id="dist_rotate" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_dist_rotate"></div></td>
+            <td class="label"><label for="day">Day:</label></td>
+            <td class="value"><input type="text" id="day" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><button onClick="dayDesc();">&lt;</button><button onClick="dayAsc();">&gt;</button><div id="slider_day"></div></td>
         </tr><tr>
-            <td class="label"><label for="pos_x">Pos. X:</label></td>
-            <td class="value"><input type="text" id="pos_x" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_pos_x"></div></td>
+            <td class="label"><label for="pos_x">Season:</label></td>
+            <td class="value"><input type="text" id="season" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
+            <td><button onClick="seasonDesc();">&lt;</button><button onClick="seasonAsc();">&gt;</button><div id="slider_season"></div></td>
         </tr><tr>
-            <td class="label"><label for="pos_y">Pos. Y:</label></td>
+            <td class="label"><label for="pos_y">Pos.Y:</label></td>
             <td class="value"><input type="text" id="pos_y" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
             <td><div id="slider_pos_y"></div></td>
         </tr>
