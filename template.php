@@ -7,36 +7,18 @@ if ( isset($_GET['sat'] ) ) {
 $c = 125;
 
 $colors = array(
-    //array('R' => 200, 'G' => 50,   'B' => 50 ), // R
-    //array('R' => 200, 'G' => 100, 'B' => 50 ), // Ry
-    //array('R' => 200, 'G' => 150, 'B' => 50 ), // Yr
-    //array('R' => 200, 'G' => 200, 'B' => 50 ), // Y
-    //array('R' => 150, 'G' => 200, 'B' => 50 ), // Yg
-    //array('R' => 100, 'G' => 200, 'B' => 50 ), // Gy
     array('R' => $c + 3*$sat, 'G' => $c - 3*$sat,   'B' => $c - 3*$sat ), // R
     array('R' => $c + 3*$sat, 'G' => $c - $sat,       'B' => $c - 3*$sat ), // Ry
     array('R' => $c + 3*$sat, 'G' => $c + $sat,      'B' => $c - 3*$sat ), // Yr
     array('R' => $c + 3*$sat, 'G' => $c + 3*$sat,  'B' => $c - 3*$sat ), // Y
     array('R' => $c + $sat,     'G' => $c + $sat,      'B' => $c - 3*$sat ), // Yg
     array('R' => $c - $sat,      'G' => $c + $sat,      'B' => $c - 3*$sat ), // Gy
-    //array('R' => 50,   'G' => 200, 'B' => 50 ), // G
-    //array('R' => 50,   'G' => 200, 'B' => 100), // Gc
-    //array('R' => 50,   'G' => 200, 'B' => 150), // Cg
-    //array('R' => 50,   'G' => 200, 'B' => 200), // C
-    //array('R' => 50,   'G' => 150, 'B' => 200), // Cb
-    //array('R' => 50,   'G' => 100, 'B' => 200),  // Bc
     array('R' => $c - 3*$sat,  'G' => $c + 3*$sat, 'B' => $c - 3*$sat  ), // G
     array('R' => $c - 3*$sat,  'G' => $c + 3*$sat, 'B' => $c - $sat      ), // Gc
     array('R' => $c - 3*$sat,  'G' => $c + 3*$sat, 'B' => $c + $sat     ), // Cg
     array('R' => $c - 3*$sat,  'G' => $c + 3*$sat, 'B' => $c + 3*$sat ), // C
     array('R' => $c - 3*$sat,  'G' => $c + $sat,     'B' => $c + 3*$sat ), // Cb
     array('R' => $c - 3*$sat,  'G' => $c - $sat,      'B' => $c + 3*$sat ), // Bc
-    //array('R' => 50,   'G' => 50,   'B' => 200), // B
-    //array('R' => 100, 'G' => 50,   'B' => 200), // Bm
-    //array('R' => 150, 'G' => 50,   'B' => 200), // Mb
-    //array('R' => 200, 'G' => 50,   'B' => 200), // M
-    //array('R' => 200, 'G' => 50,   'B' => 150), // Mr
-    //array('R' => 200, 'G' => 50,   'B' => 100) // Rm
     array('R' => $c - 3*$sat,  'G' => $c - 3*$sat, 'B' => $c + 3*$sat ), // B
     array('R' => $c - $sat,      'G' => $c - 3*$sat, 'B' => $c + 3*$sat ), // Bm
     array('R' => $c + $sat,     'G' => $c - 3*$sat, 'B' => $c + 3*$sat ), // Mb
