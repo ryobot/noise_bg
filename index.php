@@ -8,10 +8,15 @@
 月公転周期	27.321662 日
 
 月相：
-{ (now - 月相基準時刻) / 月公転周期 - (now - 地相基準時刻) / 地球公転周期 } の小数点以下
+{ (now - 月相基準時刻) / 月公転周期 - (now - 月相基準時刻) / 地球公転周期 } の小数点以下
 地相：
 { (now - 地相基準時刻) / 地球公転周期 } の小数点以下
  */
+$now = time();
+$lunarPhaseBase = strtotime("2016/3/9 11:08:00");
+$lunarPos = ($now - $lunarPhaseBase)/(27.321662*86400) - ($now - $lunarPhaseBase)/(365.2421904*86400);
+$lunarPhase = ($lunarPos - floor($lunarPos));
+$datestr = date("Y/m/d H:i:s", $now);
 
 ?>
 
@@ -22,12 +27,16 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<script type="text/javascript" src="./jquery.timepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./jquery.timepicker.css" />
 <!--
 <link rel="stylesheet" href="../jquery/jquery-ui.css" />
 <script src="../jquery/jquery-1.8.3.js"></script>
 <script src="../jquery/jquery-ui.js"></script>
 -->
 <link rel="stylesheet" href="noise_bg.css" />
+<script type="text/javascript" src="./lunar_phase.js"></script>
 <script>
 var step = 10;
 var scale = 20;
@@ -304,19 +313,6 @@ $(function() {
     });
     $( "#season" ).val( $( "#slider_season" ).slider( "value" ) );
 
-    //pos_y:
-    $( "#slider_pos_y" ).slider({
-        range: "min", min: -100, max: 100, value: 0, step: 2,
-        slide: function( event, ui ) {
-            $( "#pos_y" ).val( ui.value );
-            if ( ui.value != pos_y ) {
-                pos_y = ui.value;
-                updateImg();
-            }
-        }
-    });
-    $( "#pos_y" ).val( $( "#slider_pos_y" ).slider( "value" ) );
-
 });
 
 </script>
@@ -373,21 +369,29 @@ $(function() {
         </div>
     </td>
     </tr>
-    <!-- scaling -->
+    <!-- phase -->
     <tr>
-    <td><div class="board" style="background: #aba;"><b>date</b><table class="sliders">
+    <td><div class="board" style="background: #aba;"><b>Phase</b><table class="sliders">
         <tr>
-            <td class="label"><label for="day">Day:</label></td>
+            <td class="label"><label for="day">Lunar:</label></td>
             <td class="value"><input type="text" id="day" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
             <td><button onClick="dayDesc();">&lt;</button><button onClick="dayAsc();">&gt;</button><div id="slider_day"></div></td>
         </tr><tr>
-            <td class="label"><label for="pos_x">Season:</label></td>
+            <td class="label"><label for="pos_x">Earth:</label></td>
             <td class="value"><input type="text" id="season" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
             <td><button onClick="seasonDesc();">&lt;</button><button onClick="seasonAsc();">&gt;</button><div id="slider_season"></div></td>
-        </tr><tr>
-            <td class="label"><label for="pos_y">Pos.Y:</label></td>
-            <td class="value"><input type="text" id="pos_y" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
-            <td><div id="slider_pos_y"></div></td>
+        </tr>
+    </table></div></td>
+    </tr>
+    <!-- date -->
+    <tr>
+    <td colspan = "2"><div class="board" style="background: #aab;"><b>date</b><table class="sliders">
+        <tr>
+            <td>
+                <input type="text" id="datepicker" value="<?php echo date('Y/m/d'); ?>" size="10" onchange="onDateChange()" />
+                <input type="text" id="timepicker" class="time" value="<?php echo date('H:i:s'); ?>" size="10"  onchange="onDateChange()" />
+                Lunar Phase : <input type="text" id="lunarPhase" value="<?php echo $lunarPhase; ?>" readonly />
+            </td>
         </tr>
     </table></div></td>
     </tr>
