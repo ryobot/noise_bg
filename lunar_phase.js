@@ -6,15 +6,15 @@ function floatFormat( number, n ) {
 
 function onDateChange () {
     datestr = document.getElementById("datepicker").value + " " + document.getElementById("timepicker").value;
-    //window.alert(datestr);
+
     date = new Date(datestr);
-    lunarPhaseBase = new Date("2016/3/9 11:08:00");
-    lunarPos = (date - lunarPhaseBase)/(27.321662*86400000) - (date - lunarPhaseBase)/(365.2421904*86400000);
+    lunarPhaseBase = new Date(data.lunarPhaseBase);
+    lunarPos = (date - lunarPhaseBase)/(data.lunarRevPeriod*86400000) - (date - lunarPhaseBase)/(data.earthRevPeriod*86400000);
     lunarPhase = floatFormat(lunarPos - Math.floor(lunarPos), 3);
     document.getElementById("lunarPhase").value = lunarPhase;
 
-    earthPhaseBase = new Date("2016/6/23 3:12:08");
-    earthPos = (date - earthPhaseBase)/(365.2421904*86400000);
+    earthPhaseBase = new Date(data.earthPhaseBase);
+    earthPos = (date - earthPhaseBase)/(data.earthRevPeriod*86400000);
     earthPhase = floatFormat(earthPos - Math.floor(earthPos), 3);
     document.getElementById("earthPhase").value = earthPhase;
     
