@@ -192,6 +192,7 @@ $(function() {
             $( "#day" ).val( ui.value );
             if ( ui.value != day ) {
                 day = ui.value;
+                resumeDay();
                 updateImg();
             }
         }
@@ -205,6 +206,7 @@ $(function() {
             $( "#season" ).val( ui.value );
             if ( ui.value != season ) {
                 season = ui.value;
+                resumeSeason();
                 updateImg();
             }
         }

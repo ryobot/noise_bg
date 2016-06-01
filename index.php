@@ -1,29 +1,30 @@
 <?php
-  //echo "self similarity drawing context."
+include "lunar_phase.php";
 
-/*
-地相基準時刻 2016/6/23 3:12:08 (いて座Aスターへの最接近時刻)
-月相基準時刻 2016/3/9 0:24:00 (皆既月食)
-地球公転周期 365.2421904 日	
-月公転周期	27.321662 日
-
-月相：
-{ (now - 月相基準時刻) / 月公転周期 - (now - 月相基準時刻) / 地球公転周期 } の小数点以下
-地相：
-{ (now - 地相基準時刻) / 地球公転周期 } の小数点以下
- */
-
+$qdate = 0;
+if ( isset($_GET['qdate'] ) ) {
+    if ( isset($_GET['qtime'] ) ) {
+         $qdate = strtotime($_GET['qdate']." ".$_GET['qtime']);
+    } else {
+         $qdate = strtotime($_GET['qdate']);
+    }
+}
 $now = time();
-$lunarPhaseBase = strtotime("2016/3/9 11:08:00");
-$lunarPos = ($now - $lunarPhaseBase)/(27.321662*86400) - ($now - $lunarPhaseBase)/(365.2421904*86400);
-$lunarPhase = ($lunarPos - floor($lunarPos));
 $datestr = date("Y/m/d H:i:s", $now);
+
+$json = file_get_contents("./noise_bg.json");
+$data = json_decode($json, true);
+$lep = new lunarEarthPhase($data, $qdate);
+if ( isset($_GET['img'] ) ) {
+    header('Location: ./template.php?'.$lep->noise_bg_url($data));
+    exit;
+}
 ?>
 
 <html lang="ja">
 <head>
 <meta charset="utf-8" />
-<title>Noise Background Drawing Context</title>
+<title>Daily Noise BG Drawing Context</title>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
@@ -45,7 +46,7 @@ $datestr = date("Y/m/d H:i:s", $now);
 <table>
     <!-- title -->
     <tr>
-    <td colspan="2"><div class="board" style="background: #667; text-align: center;"><b>Noise Background Drawing Script</b></div></td>
+    <td colspan="2"><div class="board" style="background: #667; text-align: center;"><b>Daily Noise BG Drawing Script</b></div></td>
     </tr>
     <!-- source -->
     <tr>
@@ -96,11 +97,11 @@ $datestr = date("Y/m/d H:i:s", $now);
     <tr>
     <td><div class="board" style="background: #aba;"><b>Phase</b><table class="sliders">
         <tr>
-            <td class="label"><label for="day">Lunar:</label></td>
+            <td class="label"><label for="day">Scale(Lunar):</label></td>
             <td class="value"><input type="text" id="day" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
             <td><button onClick="dayDesc();">&lt;</button><button onClick="dayAsc();">&gt;</button><div id="slider_day"></div></td>
         </tr><tr>
-            <td class="label"><label for="pos_x">Earth:</label></td>
+            <td class="label"><label for="pos_x">Color(Earth):</label></td>
             <td class="value"><input type="text" id="season" style="border: 0; color: #931ff6; font-weight: bold;" size="4" /></td>
             <td><button onClick="seasonDesc();">&lt;</button><button onClick="seasonAsc();">&gt;</button><div id="slider_season"></div></td>
         </tr>
@@ -114,7 +115,15 @@ $datestr = date("Y/m/d H:i:s", $now);
         <table class="sliders"><tr>
         <td>Lunar Phase : <input type="text" id="lunarPhase" value="0" readonly size="6" /></td>
         <td>Earth Phase : <input type="text" id="earthPhase" value="0" readonly size="6" /></td>
+        </tr><tr style="font-size: 10pt;">
+        <td>New Moon=0,1 Full Moon:0.5</td>
+        <td>Summer=0, 1 Fall=0.25 Winter=0.5 Spring=0.75</td>
         </tr></table>
+        <!--
+        <p><?php echo $lep->lunarPhase; ?></p>
+        <p><?php echo $lep->earthPhase; ?></p>
+        <p><?php echo $lep->noise_bg_url($data); ?></p>
+        -->
     </td>
     </tr>
 </table>
