@@ -119,11 +119,9 @@ if ( isset($_GET['img'] ) ) {
         <td>New Moon=0,1 Full Moon:0.5</td>
         <td>Summer=0, 1 Fall=0.25 Winter=0.5 Spring=0.75</td>
         </tr></table>
-        <!--
         <p><?php echo $lep->lunarPhase; ?></p>
         <p><?php echo $lep->earthPhase; ?></p>
         <p><?php echo $lep->noise_bg_url($data); ?></p>
-        -->
     </td>
     </tr>
 </table>

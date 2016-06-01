@@ -32,7 +32,7 @@ function onDateChange () {
     
     // for noise bg:
     day = Math.floor(lunarPhase*28);
-    season = Math.floor(earthPhase*24) + 4;
+    season = Math.floor(earthPhase*24) + 6;
     if (season >= 24) season -= 24;
     resumeSeason();
     resumeDay();

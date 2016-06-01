@@ -26,17 +26,15 @@ class lunarEarthPhase {
         $this->earthPhase = ($earthPos - floor($earthPos));
     }
     public function noise_bg_url ($data) {
-        //day = Math.floor(lunarPhase*28);
         $day = floor(28*$this->lunarPhase);
-        //season = Math.floor(earthPhase*24) + 4;
-        $season = floor(24*$this->earthPhase) + 4;
+        $season = floor(24*$this->earthPhase) + 6;
         if ($season >= 24) $season -= 24;
         $url = "step=".$data["sst"][$day]["step"];
         $url .= "&scale=".$data["sst"][$day]["scale"];
         $url .= "&trans=".$data["sst"][$day]["trans"];
         $url .= "&colorq=".$data["hueQSat"][$season]["q"];
         $url .= "&colorqn=".$data["hueQSat"][$season]["qn"];
-        $url .= "&hue=".$data["hueQSat"][$season]["hue"];
+        $url .= "&colorh=".$data["hueQSat"][$season]["hue"];
         $url .= "&sat=".$data["hueQSat"][$season]["sat"];
         return $url;
     }
