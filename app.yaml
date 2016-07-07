@@ -5,4 +5,5 @@ api_version: 1
 
 handlers:
 - url: /.*
-  script: index.php
+  script: index.php, template.php
+  static_files: *.css, *.js, *.json
