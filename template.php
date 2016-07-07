@@ -90,12 +90,20 @@ imagefill($img,100,100,$trans);
 
 for ($x = -1; $x < $template_size/$scale; $x++) {
     for ($y = -1; $y < $template_size/$scale; $y++) {
+        /* square */
         $poly = array (
             $x*$scale, $y*$scale,
             $x*$scale + $step, $y*$scale,
             $x*$scale + $step, $y*$scale + $step,
             $x*$scale,  $y*$scale + $step
         );
+        /* parallelogram *//*
+        $poly = array (
+            $x*$scale, $y*$scale,
+            $x*$scale + $step, $y*$scale + $step/2,
+            $x*$scale + $step, $y*$scale + 3*$step/2,
+            $x*$scale,  $y*$scale + $step
+        );*/
         imagefilledpolygon($img, $poly, 4, $color[rand(0,$colorqn-1)][rand(0,3)]);
     }
 }
