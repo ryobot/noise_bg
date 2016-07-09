@@ -12,11 +12,16 @@ if ( isset($_GET['qdate'] ) ) {
 $now = time();
 $datestr = date("Y/m/d H:i:s", $now);
 
+$shape = "";
+if ( isset($_GET['shape'] ) ) {
+  $shape = "&shape=".$_GET['shape'];
+}
+
 $json = file_get_contents("./noise_bg.json");
 $data = json_decode($json, true);
 $lep = new lunarEarthPhase($data, $qdate);
 if ( isset($_GET['img'] ) ) {
-    header('Location: ./template.php?'.$lep->noise_bg_url($data));
+    header('Location: ./template.php?'.$lep->noise_bg_url($data).$shape);
     exit;
 }
 ?>
@@ -37,6 +42,9 @@ if ( isset($_GET['img'] ) ) {
 <script src="../jquery/jquery-ui.js"></script>
 -->
 <link rel="stylesheet" href="noise_bg.css" />
+<script type="text/javascript">
+    var shape = "<?php echo $shape; ?>";
+</script>
 <script type="text/javascript" src="./initvars.js"></script>
 <script type="text/javascript" src="./lunar_phase.js"></script>
 <script type="text/javascript" src="./noise_bg.js"></script>

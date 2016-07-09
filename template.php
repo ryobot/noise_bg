@@ -51,6 +51,10 @@ $colorqn = 6;
 if ( isset($_GET['colorqn'] ) ) {
   $colorqn = intval($_GET['colorqn']);
 }
+$shape = "sq";
+if ( isset($_GET['shape'] ) ) {
+  $shape = $_GET['shape'];
+}
 
 $uc = array();
 for ($i = 0; $i < $colorqn; $i++) {
@@ -88,24 +92,33 @@ $trans = imagecolorallocatealpha($img,  0, 0, 0, 127);
 //imagesavealpha($img, true);
 imagefill($img,100,100,$trans);
 
-for ($x = -1; $x < $template_size/$scale; $x++) {
-    for ($y = -1; $y < $template_size/$scale; $y++) {
-        /* square */
-        $poly = array (
-            $x*$scale, $y*$scale,
-            $x*$scale + $step, $y*$scale,
-            $x*$scale + $step, $y*$scale + $step,
-            $x*$scale,  $y*$scale + $step
-        );
-        /* parallelogram *//*
-        $poly = array (
-            $x*$scale, $y*$scale,
-            $x*$scale + $step, $y*$scale + $step/2,
-            $x*$scale + $step, $y*$scale + 3*$step/2,
-            $x*$scale,  $y*$scale + $step
-        );*/
-        imagefilledpolygon($img, $poly, 4, $color[rand(0,$colorqn-1)][rand(0,3)]);
-    }
+switch ($shape) {
+    case "para": //parallelogram:
+        for ($x = -1; $x < $template_size/$scale; $x++) {
+            for ($y = -1; $y < $template_size/$scale; $y++) {
+                $poly = array (
+                    $x*$scale, $y*$scale,
+                    $x*$scale + $step, $y*$scale + $step/2,
+                    $x*$scale + $step, $y*$scale + 3*$step/2,
+                    $x*$scale,  $y*$scale + $step
+                );
+                imagefilledpolygon($img, $poly, 4, $color[rand(0,$colorqn-1)][rand(0,3)]);
+            }
+        }
+        break;
+    default: //square:
+        for ($x = -1; $x < $template_size/$scale; $x++) {
+            for ($y = -1; $y < $template_size/$scale; $y++) {
+                $poly = array (
+                    $x*$scale, $y*$scale,
+                    $x*$scale + $step, $y*$scale,
+                    $x*$scale + $step, $y*$scale + $step,
+                    $x*$scale,  $y*$scale + $step
+                );
+                imagefilledpolygon($img, $poly, 4, $color[rand(0,$colorqn-1)][rand(0,3)]);
+            }
+        }
+        break;
 }
 
 $small_size = 200;
