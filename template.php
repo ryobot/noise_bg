@@ -95,6 +95,7 @@ imagefill($img,100,100,$trans);
 switch ($shape) {
     case "para": //parallelogram:
         for ($x = -1; $x < $template_size/$scale; $x++) {
+            $end_color = $color[rand(0,$colorqn-1)][rand(0,3)];
             for ($y = -1; $y < $template_size/$scale; $y++) {
                 $poly = array (
                     $x*$scale, $y*$scale,
@@ -102,7 +103,11 @@ switch ($shape) {
                     $x*$scale + $step, $y*$scale + 3*$step/2,
                     $x*$scale,  $y*$scale + $step
                 );
-                imagefilledpolygon($img, $poly, 4, $color[rand(0,$colorqn-1)][rand(0,3)]);
+                if ( $y == -1 || $y == $template_size/$scale - 1 ) {
+                    imagefilledpolygon($img, $poly, 4, $end_color);
+                } else {
+                    imagefilledpolygon($img, $poly, 4, $color[rand(0,$colorqn-1)][rand(0,3)]);
+                }
             }
         }
         break;
