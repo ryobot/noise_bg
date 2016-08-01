@@ -93,6 +93,30 @@ $trans = imagecolorallocatealpha($img,  0, 0, 0, 127);
 imagefill($img,100,100,$trans);
 
 switch ($shape) {
+    case "rhom": //rhombus
+        $end_color_x = array();
+        for ($x = -1; $x < $template_size/$scale; $x++) {
+            $end_color_y = $color[rand(0,$colorqn-1)][rand(0,3)];
+            for ($y = -1; $y < $template_size/$scale; $y++) {
+                $poly = array (
+                    $x*$scale, $y*$scale + $step,
+                    $x*$scale + $step, $y*$scale,
+                    $x*$scale + 2*$step, $y*$scale + $step,
+                    $x*$scale + $step,  $y*$scale + 2*$step
+                );
+                if ( $y == -1 || $y == $template_size/$scale - 1 ) {
+                    imagefilledpolygon($img, $poly, 4, $end_color_y);
+                } else if ( $x == -1 ) {
+                    $end_color_x[$y] = $color[rand(0,$colorqn-1)][rand(0,3)];
+                    imagefilledpolygon($img, $poly, 4, $end_color_x[$y]);
+                } else if ( $x == $template_size/$scale - 1 ) {
+                    imagefilledpolygon($img, $poly, 4, $end_color_x[$y]);
+                } else {
+                    imagefilledpolygon($img, $poly, 4, $color[rand(0,$colorqn-1)][rand(0,3)]);
+                }
+            }
+        }
+        break;
     case "para": //parallelogram:
         for ($x = -1; $x < $template_size/$scale; $x++) {
             $end_color = $color[rand(0,$colorqn-1)][rand(0,3)];
