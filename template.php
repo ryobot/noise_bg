@@ -70,10 +70,15 @@ $template_size = intval(2000/$scale)*$scale;
 //$scale = $template_size/100*$multi;
 $img = imagecreatetruecolor($template_size, $template_size);
 
+$alpha_adj = 1.0;
+if ( $shape == "rhom" ) {
+    $alpha_adj = 0.7;
+}
+
 $alpha = array(4);
-$alpha[0] = 120-$trans*3;
-$alpha[1] = 120-$trans*2;
-$alpha[2] = 120-$trans;
+$alpha[0] = 120-$trans*3*$alpha_adj;
+$alpha[1] = 120-$trans*2*$alpha_adj;
+$alpha[2] = 120-$trans*$alpha_adj;
 $alpha[3] = 120;
 
 $color = array(6);
