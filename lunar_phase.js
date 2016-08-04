@@ -24,6 +24,8 @@ function onDateChange () {
     lunarPos = (date - lunarPhaseBase)/(data.lunarRevPeriod*86400000) - (date - lunarPhaseBase)/(data.earthRevPeriod*86400000);
     lunarPhase = floatFormat(lunarPos - Math.floor(lunarPos), 3);
     document.getElementById("lunarPhase").value = lunarPhase;
+    lunarAge = Math.floor(lunarPos);
+    document.getElementById("lunarAge").value = lunarAge;
 
     earthPhaseBase = new Date(data.earthPhaseBase);
     earthPos = (date - earthPhaseBase)/(data.earthRevPeriod*86400000);
@@ -33,6 +35,7 @@ function onDateChange () {
     // for noise bg:
     day = Math.floor(lunarPhase*28);
     season = Math.floor(earthPhase*24) + 6;
+    age = lunarAge;
     if (season >= 24) season -= 24;
     resumeSeason();
     resumeDay();

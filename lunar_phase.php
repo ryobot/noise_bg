@@ -13,13 +13,14 @@
  */
 
 class lunarEarthPhase {
-    public $lunarPase, $earthPhase;
+    public $lunarPhase, $earthPhase, $lunarAge;
     public function __construct ($data, $date="") {
         if ( !$date ) {
             $date = time(); // now
         }
         $lunarPhaseBase = strtotime($data["lunarPhaseBase"]);
         $lunarPos = ($date - $lunarPhaseBase)/($data["lunarRevPeriod"]*86400) - ($date - $lunarPhaseBase)/($data["earthRevPeriod"]*86400);
+        $this->lunarAge = floor($lunarPos);
         $this->lunarPhase = ($lunarPos - floor($lunarPos));
         $earthPhaseBase = strtotime($data["earthPhaseBase"]);
         $earthPos = ($date - $earthPhaseBase)/($data["earthRevPeriod"]*86400);
@@ -35,6 +36,7 @@ class lunarEarthPhase {
         $url .= "&colorq=".$data["hueQSat"][$season]["q"];
         $url .= "&colorqn=".$data["hueQSat"][$season]["qn"];
         $url .= "&colorh=".$data["hueQSat"][$season]["hue"];
+        $url .= "&age=".$this->lunarAge;
         $url .= "&sat=".$data["hueQSat"][$season]["sat"];
         return $url;
     }

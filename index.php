@@ -2,14 +2,15 @@
 include "lunar_phase.php";
 
 $qdate = 0;
+$now = time();
 if ( isset($_GET['qdate'] ) ) {
     if ( isset($_GET['qtime'] ) ) {
          $qdate = strtotime($_GET['qdate']." ".$_GET['qtime']);
     } else {
          $qdate = strtotime($_GET['qdate']);
     }
+    $now = $qdate;
 }
-$now = time();
 $datestr = date("Y/m/d H:i:s", $now);
 
 $shape = "";
@@ -118,14 +119,15 @@ if ( isset($_GET['img'] ) ) {
     <!-- date -->
     <tr>
     <td colspan = "2"><div class="board" style="background: #aab;"><b>date : </b>
-        <input type="text" id="datepicker" value="<?php echo date('Y/m/d'); ?>" size="10" onchange="onDateChange()" />
-        <input type="text" id="timepicker" class="time" value="<?php echo date('H:i:s'); ?>" size="10"  onchange="onDateChange()" />
+        <input type="text" id="datepicker" value="<?php echo date('Y/m/d', $now); ?>" size="10" onchange="onDateChange()" />
+        <input type="text" id="timepicker" class="time" value="<?php echo date('H:i:s', $now); ?>" size="10"  onchange="onDateChange()" />
         <table class="sliders"><tr>
         <td>Lunar Phase : <input type="text" id="lunarPhase" value="0" readonly size="6" /></td>
+        <td>Lunar Age : <input type="text" id="lunarAge" value="0" readonly size="6" /></td>
         <td>Earth Phase : <input type="text" id="earthPhase" value="0" readonly size="6" /></td>
         </tr><tr style="font-size: 10pt;">
         <td>New Moon=0,1 Full Moon:0.5</td>
-        <td>Summer=0, 1 Fall=0.25 Winter=0.5 Spring=0.75</td>
+        <td colspan="2">Summer=0, 1 Fall=0.25 Winter=0.5 Spring=0.75</td>
         </tr></table>
         <p><?php echo $lep->lunarPhase; ?></p>
         <p><?php echo $lep->earthPhase; ?></p>

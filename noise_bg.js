@@ -16,6 +16,7 @@ function doUpdateImg() {
             "&colorq=" + colorq +
             "&colorqn=" + colorqn +
             "&colorh=" + colorh +
+            "&age=" + age +
             "&sat=" + sat + shape +
             ")"; 
     updated = false;

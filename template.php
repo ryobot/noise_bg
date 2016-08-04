@@ -51,9 +51,14 @@ $colorqn = 6;
 if ( isset($_GET['colorqn'] ) ) {
   $colorqn = intval($_GET['colorqn']);
 }
+
+$shapes = array( "sq", "para", "rhom" );    
+$age = 0;
 $shape = "sq";
 if ( isset($_GET['shape'] ) ) {
   $shape = $_GET['shape'];
+} else if ( isset($_GET['age'] ) ) {
+  $shape = $shapes[intval($_GET['age']) % count($shapes)];
 }
 
 $uc = array();

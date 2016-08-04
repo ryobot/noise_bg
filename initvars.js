@@ -6,6 +6,7 @@ var colorqn = 6;
 var colorh = 0;
 var day = 0;
 var season = 0;
+var age = 0;
 var sat = 25;
 var data = {};
 
